@@ -1,8 +1,8 @@
 <?php
-namespace Bendt\auth\Controllers;
+namespace Bendt\Auth\Controllers;
 
 use Illuminate\Http\Request;
-use Bendt\auth\Models\User;
+use Bendt\Auth\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 

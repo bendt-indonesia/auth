@@ -1,6 +1,6 @@
 <?php
 
-namespace Bendt\auth\Controllers;
+namespace Bendt\Auth\Controllers;
 
 use Exception;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;

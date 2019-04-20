@@ -17,5 +17,12 @@
     "psr-4": {
       "Bendt\\Auth\\": "src/"
     }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Bendt\\Auth\\AuthServiceProvider"
+      ]
+    }
   }
 }

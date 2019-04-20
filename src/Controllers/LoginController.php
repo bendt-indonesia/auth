@@ -1,12 +1,12 @@
 <?php
 
-namespace Bendt\auth\Controllers;
+namespace Bendt\Auth\Controllers;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use Bendt\auth\AuthManager;
+use Bendt\Auth\AuthManager;
 
 class LoginController extends Controller
 {

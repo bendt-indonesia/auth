@@ -1,6 +1,6 @@
 <?php
 
-namespace Bendt\auth;
+namespace Bendt\Auth;
 
 use Illuminate\Support\Facades\Auth;
 

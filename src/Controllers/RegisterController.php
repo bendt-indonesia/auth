@@ -1,11 +1,11 @@
 <?php
 
-namespace Bendt\auth\Controllers;
+namespace Bendt\Auth\Controllers;
 
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Bendt\auth\Models\User;
+use Bendt\Auth\Models\User;
 
 class RegisterController extends Controller
 {

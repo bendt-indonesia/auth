@@ -1,12 +1,12 @@
 <?php
 
-namespace Bendt\auth;
+namespace Bendt\Auth;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Bendt\auth\Middleware\RoleCheck;
+use Bendt\Auth\Middleware\RoleCheck;
 
 class AuthServiceProvider extends ServiceProvider
 {

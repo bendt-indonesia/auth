@@ -1,6 +1,6 @@
 <?php
 
-namespace Bendt\auth\Models;
+namespace Bendt\Auth\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

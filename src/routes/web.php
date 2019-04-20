@@ -11,7 +11,7 @@
 */
 
 Route::group([
-    'namespace' => 'Bendt\auth\Controllers',
+    'namespace' => 'Bendt\Auth\Controllers',
     'middleware' => 'web'
 ], function() {
     // Authentication Routes...

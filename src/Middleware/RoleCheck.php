@@ -1,6 +1,6 @@
 <?php
 
-namespace Bendt\auth\Middleware;
+namespace Bendt\Auth\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Contracts\Auth\Factory as Auth;
