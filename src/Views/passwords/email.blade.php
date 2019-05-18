@@ -1,7 +1,9 @@
 @extends('bendt-auth::layouts.auth')
 
 @section('content')
-    <p>Enter your Email and instructions will be sent to you! </p>
+    <h3>Reset Password</h3>
+    <hr>
+    <p>Please enter your Email</p>
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
@@ -18,21 +20,18 @@
             @endif
         </div>
         <div>
-            <div class="col-xs-4 m-t-1">
-                @if(env('RECAPTCHA_ENABLED'))
-                    <button type="submit" class="g-recaptcha btn btn-primary btn-block btn-flat"
-                            data-sitekey="{{env('RECAPTCHA')}}"
-                            data-callback="onSubmit"
-                    >Send Instruction</button>
-                @else
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Reset</button>
-                @endif
+            @if(env('RECAPTCHA_ENABLED'))
+                <button type="submit" class="g-recaptcha btn btn-primary btn-block btn-flat"
+                        data-sitekey="{{env('RECAPTCHA')}}"
+                        data-callback="onSubmit"
+                >Send Instruction</button>
+            @else
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Reset</button>
+            @endif
 
-                <div class="mt-3 text-center">
-                    <a href="{{url('login')}}">Back to Login</a>
-                </div>
+            <div class="mt-3 text-center">
+                <a href="{{url('login')}}">Back to Login</a>
             </div>
-            <!-- /.col -->
         </div>
     </form>
 @endsection

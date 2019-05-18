@@ -22,7 +22,7 @@ class ResetPasswordController extends Controller
 
     public function showResetForm(Request $request, $token = null)
     {
-        return view('bendt-auth::passwords.reset')->with(
+        return view(config('bendt-auth.reset_view', 'passwords.reset'))->with(
             ['token' => $token, 'email' => $request->email]
         );
     }

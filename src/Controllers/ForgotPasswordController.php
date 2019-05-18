@@ -38,7 +38,7 @@ class ForgotPasswordController extends Controller
      */
     public function showLinkRequestForm()
     {
-        return view('bendt-auth::passwords.email');
+        return view(config('bendt-auth.email_view', 'bendt-auth::passwords.email'));
     }
 
 }

@@ -24,7 +24,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('bendt-auth::register');
+        return view(config('bendt-auth.register_view', 'bendt-auth::register'));
     }
 
     /**
