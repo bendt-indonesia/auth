@@ -7,20 +7,20 @@ use Illuminate\Support\Facades\Auth;
 class AuthManager
 {
     public static $ROLE_SESSION_KEY = "bendtroles";
+
     private static $_ROLES = null;
 
     public static function userInAnyRole($roles)
     {
-        if(self::userIsRoot()) return true;
+        if (self::userIsRoot()) return true;
 
         $roles_from_session = self::getRoles();
 
-        if(is_string($roles)) $roles = [$roles];
+        if (is_string($roles)) $roles = [$roles];
 
-        if($roles_from_session) {
-            foreach ($roles as $role)
-            {
-                if(in_array($role, $roles_from_session)) return true;
+        if ($roles_from_session) {
+            foreach ($roles as $role) {
+                if (in_array($role, $roles_from_session)) return true;
             }
         }
 
@@ -29,16 +29,15 @@ class AuthManager
 
     public static function userInAllRoles($roles)
     {
-        if(self::userIsRoot()) return true;
+        if (self::userIsRoot()) return true;
 
         $roles_from_session = self::getRoles();
 
-        if(is_string($roles)) $roles = [$roles];
+        if (is_string($roles)) $roles = [$roles];
 
-        if($roles_from_session) {
-            foreach ($roles as $role)
-            {
-                if(!in_array($role, $roles_from_session)) return false;
+        if ($roles_from_session) {
+            foreach ($roles as $role) {
+                if (!in_array($role, $roles_from_session)) return false;
             }
 
             return true;
@@ -54,7 +53,7 @@ class AuthManager
 
     public static function getRoles()
     {
-        if(is_null(self::$_ROLES)) {
+        if (is_null(self::$_ROLES)) {
             self::$_ROLES = self::getRolesFromSession();
         }
 
@@ -63,10 +62,9 @@ class AuthManager
 
     private static function getRolesFromSession()
     {
-        if(session()->has(self::$ROLE_SESSION_KEY)) {
+        if (session()->has(self::$ROLE_SESSION_KEY)) {
             return session(self::$ROLE_SESSION_KEY);
-        }
-        else {
+        } else {
             $roles = Auth::user()->getRoleList();
             self::saveRolesToSession($roles);
             return $roles;

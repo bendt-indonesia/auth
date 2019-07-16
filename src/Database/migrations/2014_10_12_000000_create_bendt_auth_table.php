@@ -50,7 +50,7 @@ class CreateBendtAuthTable extends Migration
             $table->timestamp('created_at')->nullable();
         });
 
-        Schema::create('role_role_group', function (Blueprint $table) {
+        Schema::create('role_group_pivot', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('role_id')->unsigned();
             $table->integer('role_group_id')->unsigned();
@@ -67,7 +67,7 @@ class CreateBendtAuthTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role_role_group');
+        Schema::dropIfExists('role_group_pivot');
         Schema::dropIfExists('password_resets');
         Schema::dropIfExists('users');
         Schema::dropIfExists('roles');
