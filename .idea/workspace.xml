@@ -2,19 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae70c500-4035-4276-a403-3ba653d25231" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Controllers/API/UserController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controllers/ApiController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Models/Module.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Models/ModuleAttribute.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Models/ModuleGroup.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Models/RoleGroupPivot.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/passport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AuthServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Database/migrations/2014_10_12_000000_create_bendt_auth_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Database/migrations/2014_10_12_000000_create_bendt_auth_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Models/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/Role.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Models/RoleGroup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/RoleGroup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/bendt-auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/bendt-auth.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -42,15 +31,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="525">
               <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Role.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Models/Role.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
             </state>
           </provider>
         </entry>
@@ -88,11 +68,20 @@
       <file leaf-file-name="2014_10_12_000000_create_bendt_auth_table.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Database/migrations/2014_10_12_000000_create_bendt_auth_table.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
+            <state relative-caret-position="147">
               <caret line="74" column="28" selection-start-line="74" selection-start-column="28" selection-end-line="74" selection-end-column="28" />
               <folding>
                 <element signature="e#7#45#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="composer.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/composer.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -118,7 +107,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="User.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="User.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Models/User.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="499">
@@ -150,7 +139,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/AuthManager.php" />
-        <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/src/routes/api.php" />
         <option value="$PROJECT_DIR$/src/Controllers/ApiController.php" />
         <option value="$PROJECT_DIR$/src/Models/Roles.php" />
@@ -167,6 +155,7 @@
         <option value="$PROJECT_DIR$/src/Models/RoleGroup.php" />
         <option value="$PROJECT_DIR$/src/Controllers/API/UserController.php" />
         <option value="$PROJECT_DIR$/src/Database/migrations/2014_10_12_000000_create_bendt_auth_table.php" />
+        <option value="$PROJECT_DIR$/composer.json" />
       </list>
     </option>
   </component>
@@ -182,8 +171,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="1379" />
     <option name="y" value="-1056" />
-    <option name="width" value="1294" />
-    <option name="height" value="1019" />
+    <option name="width" value="1270" />
+    <option name="height" value="996" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -305,17 +294,18 @@
       <workItem from="1563452251758" duration="15000" />
       <workItem from="1563452289165" duration="1565000" />
       <workItem from="1563458414606" duration="354000" />
-      <workItem from="1563517545451" duration="991000" />
+      <workItem from="1563517545451" duration="2785000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19350000" />
+    <option name="totallyTimeSpent" value="21144000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1379" y="-1056" width="1294" height="1019" extended-state="0" />
+    <frame x="1379" y="-1056" width="1270" height="996" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.43051118" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.4389251" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -524,13 +514,6 @@
     <entry file="file://$PROJECT_DIR$/src/Controllers/UpdatePasswordController.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/routes/api.php" />
     <entry file="file://$PROJECT_DIR$/src/Controllers/Controller.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -646,16 +629,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/migrations/2014_10_12_000000_create_bendt_auth_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="74" column="28" selection-start-line="74" selection-start-column="28" selection-end-line="74" selection-end-column="28" />
-          <folding>
-            <element signature="e#7#45#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Models/User.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="499">
@@ -663,6 +636,23 @@
           <folding>
             <element signature="e#37#77#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Database/migrations/2014_10_12_000000_create_bendt_auth_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="74" column="28" selection-start-line="74" selection-start-column="28" selection-end-line="74" selection-end-column="28" />
+          <folding>
+            <element signature="e#7#45#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
         </state>
       </provider>
     </entry>
