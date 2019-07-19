@@ -4,15 +4,12 @@ namespace Bendt\Auth\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class ModuleAttribute extends Model
 {
 
-    protected $table = 'role';
+    protected $table = 'module_attribute';
 
-    public function groups()
-    {
-        return $this->belongsToMany(RoleGroup::class);
-    }
+    protected $files = [];
 
     public function module()
     {

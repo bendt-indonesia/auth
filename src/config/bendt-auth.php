@@ -15,5 +15,7 @@ return [
     'register_view' => 'bendt-auth::register',
     'email_view' => 'bendt-auth::passwords.email',
     'reset_view' => 'bendt-auth::passwords.reset',
-    'routes_disabled' => false
+    'routes_disabled' => false,
+    'passport' => false,
+    'passport_expire_in_minute' => 0,
 ];

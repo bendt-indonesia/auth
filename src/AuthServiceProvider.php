@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Bendt\Auth\Middleware\RoleCheck;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -23,14 +24,20 @@ class AuthServiceProvider extends ServiceProvider
             __DIR__.'/config/bendt-auth.php' => config_path('bendt-auth.php'),
         ], 'config');
 
-        $this->publishes([
-            __DIR__.'/Database/migrations' => database_path('migrations'),
-        ], 'database');
-
         //Require Routes if not disabled
         if(!config('bendt-auth.routes_disabled', false)) {
             require __DIR__ . '/routes/web.php';
         }
+        //Require Routes if not disabled
+        if(config('bendt-auth.passport', false)) {
+            Passport::routes();
+            require __DIR__ . '/routes/passport.php';
+        }
+
+        if(config('bendt-auth.passport', true) && config('bendt-auth.passport_expire_in_minute',0)) {
+            Passport::tokensExpireIn(now()->addMinutes(config('bendt-auth.passport_expire_in_minute')));
+        }
+
 
         //Load Migrations
         $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
