@@ -21,4 +21,8 @@ class Module extends Model
         return $this->belongsTo(ModuleGroup::class);
     }
 
+    public function roles()
+    {
+        return $this->hasMany(Role::class);
+    }
 }

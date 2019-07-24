@@ -19,4 +19,9 @@ class Role extends Model
         return $this->belongsTo(Module::class);
     }
 
+    public function pivots()
+    {
+        return $this->hasMany(RoleGroupPivot::class);
+    }
+
 }
