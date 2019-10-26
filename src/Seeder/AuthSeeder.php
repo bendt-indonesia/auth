@@ -15,6 +15,10 @@ class AuthSeeder
     protected $groups = [
         'system' => [
             'table_name' => 'Master Table',
+            'custom' => [                  //Level 2 Route
+                'title' => 'Master Table',
+                'actions' => ['view','update']
+            ],
         ],
     ];
     protected $roleGroups = [
@@ -38,11 +42,20 @@ class AuthSeeder
         ],
     ];
 
-    protected $customRoute = [];
+    protected $customRoute = [
+        'others' => [                               //Level 1 always be group / department
+            'role-management' => [                  //Level 2 Route
+                'title' => 'Hak Akses',
+                'actions' => ['view','update']
+            ],
+            'test-route' => 'Testing Page'          // check if string then all actions created
+        ]
+    ];
     protected $roles = [];
     protected $groupedRolesByTable = [];
     protected $modules = [];
     protected $module_group = [];
+    protected $hidden = [];
 
     protected $actions = [
         'view',
@@ -51,11 +64,12 @@ class AuthSeeder
         'destroy',
     ];
 
-    public function __construct($groups, $roleGroups, $customRoute = [], $actions = [])
+    public function __construct($groups, $roleGroups, $customRoute = [], $hidden = [], $actions = [])
     {
         $this->groups = $groups;
         $this->roleGroups = $roleGroups;
-        if (count($this->customRoute) > 0) $this->customRoute = $customRoute;
+        $this->customRoute = $customRoute;
+        $this->hidden = $hidden;
         if (count($actions) > 0) $this->actions = $actions;
     }
 
@@ -67,58 +81,71 @@ class AuthSeeder
 
     public function roles()
     {
+        $modGroup = [];
+
         foreach ($this->groups as $group => $tables) {
             $groupModel = new ModuleGroup([
                 'name' => Str::title($group),
                 'slug' => Str::slug($group)
             ]);
             $groupModel->save();
+            $modGroup[] = $groupModel;
 
-            foreach ($tables as $table => $title) {
-                $module = new Module([
-                    'name' => $title,
-                    'group_id' => $groupModel->id,
-                    'slug' => '/' . $groupModel->slug . '/' . Str::slug($table),
-                ]);
-                $module->save();
-
-                foreach ($this->actions as $act) {
-                    $role = new Role([
-                        'name' => strtoupper($act . '_' . $table),
-                        'type' => $act,
-                        'module_id' => $module->id
-                    ]);
-                    $role->save();
-
-                    $this->roles[] = [
-                        'group' => $groupModel->slug,
+            foreach ($tables as $table => $content) {
+                if(is_array($content)) {
+                    $module = new Module([
+                        'name' => $content['title'],
+                        'group_id' => $groupModel->id,
+                        'slug' => '/' . $groupModel->slug . '/' . Str::slug($table),
                         'table' => $table,
-                        'role' => $role
-                    ];
-                }
+                        'is_visible' => in_array($table, $this->hidden) ? 0 : 1
+                    ]);
+                    $module->save();
 
+                    $this->create_role($content['actions'], $module, $groupModel->slug, $table);
+                } else {
+                    $module = new Module([
+                        'name' => $content,
+                        'group_id' => $groupModel->id,
+                        'slug' => '/' . $groupModel->slug . '/' . Str::slug($table),
+                        'table' => $table,
+                        'is_visible' => in_array($table, $this->hidden) ? 0 : 1
+                    ]);
+                    $module->save();
+
+                    $this->create_role($this->actions, $module, $groupModel->slug, $table);
+                }
             }
         }
 
-        foreach ($this->customRoute as $slug => $name) {
-            $module = new Module([
-                'name' => $name,
-                'slug' => $slug,
-                'group_id' => 1,
-            ]);
-            $module->save();
+        $modGroup = collect($modGroup)->keyBy('slug');
+        foreach ($this->customRoute as $group => $routes) {
+            if (!isset($modGroup[$group])) continue;
+            $group = $modGroup[$group];
+            foreach ($routes as $table => $content) {
 
-            $role = new Role([
-                'name' => strtoupper('view_' . Str::snake($name)),
-                'type' => 'view',
-                'module_id' => $module->id
-            ]);
-            $role->save();
-            $this->roles[] = [
-                'group' => 'others',
-                'table' => null,
-                'role' => $role
-            ];
+                if(is_array($content)) {
+
+                    $module = new Module([
+                        'name' => $content['title'],
+                        'group_id' => $group->id,
+                        'slug' => '/' . Str::slug($table),
+                    ]);
+                    $module->save();
+                    $this->create_role($content['actions'], $module, $group->slug, $table);
+
+                } else {
+
+                    $module = new Module([
+                        'name' => $content,
+                        'group_id' => $group->id,
+                        'slug' => '/' . Str::slug($table),
+                    ]);
+                    $module->save();
+                    $this->create_role($this->actions, $module, $group->slug, $table);
+
+                }
+            }
         }
     }
 
@@ -153,9 +180,30 @@ class AuthSeeder
             $pivot = new RoleGroupPivot([
                 'role_id' => $role['role']->id,
                 'role_group_id' => $role_group_id,
-                'is_visible' => 1,
+                'is_visible' => in_array($role['table'],$this->hidden) ? 0 : 1,
             ]);
             $pivot->save();
+        }
+    }
+
+    private function create_module() {
+
+    }
+
+    private function create_role($actions, $module, $group, $table) {
+        foreach ($actions as $act) {
+            $role = new Role([
+                'name' => strtoupper($act . '_' . Str::snake($table)),
+                'type' => $act,
+                'module_id' => $module->id
+            ]);
+            $role->save();
+
+            $this->roles[] = [
+                'group' => $group,
+                'table' => $table,
+                'role' => $role
+            ];
         }
     }
 

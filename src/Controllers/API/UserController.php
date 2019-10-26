@@ -51,7 +51,7 @@ class UserController extends ApiController
                             'id' => Str::uuid(),
                             'type' => 'item',
                             'title' => $child->name,
-                            'icon' => $child->icon ? $child->icon : '',
+                            'icon' => $child->icon ? $child->icon : 'keyboard_arrow_right',
                             'url' => $child->slug,
                         ];
                         return $children;

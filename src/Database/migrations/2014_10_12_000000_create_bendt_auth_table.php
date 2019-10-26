@@ -25,8 +25,11 @@ class CreateBendtAuthTable extends Migration
             $table->increments('id');
             $table->string('name', 80);
             $table->string('slug', 80)->unique();
+            $table->string('table', 80)->nullable();
+            $table->string('icon', 80)->nullable();
             $table->unsignedInteger('group_id');
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_visible')->default(true);
             $table->timestamps();
 
             $table->foreign('group_id')->references('id')->on('module_group')->onDelete('cascade');
@@ -63,10 +66,11 @@ class CreateBendtAuthTable extends Migration
         });
 
         Schema::create('role_group_pivot', function (Blueprint $table) {
-            $table->increments('id');
             $table->unsignedInteger('role_id')->unsigned();
             $table->unsignedInteger('role_group_id')->unsigned();
             $table->boolean('is_visible')->default(true);
+
+            $table->primary(['role_id', 'role_group_id']);
 
             $table->foreign('role_id')->references('id')->on('role')->onDelete('restrict');
             $table->foreign('role_group_id')->references('id')->on('role_group')->onDelete('cascade');

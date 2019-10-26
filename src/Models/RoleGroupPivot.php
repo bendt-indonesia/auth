@@ -13,6 +13,8 @@ class RoleGroupPivot extends Model
 
     const FILE_PATH = "/role_group_pivot/";
 
+    protected $guarded = [];
+
     protected $files = [];
 
     public function role_group()

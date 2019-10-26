@@ -38,7 +38,6 @@ class AuthServiceProvider extends ServiceProvider
             Passport::tokensExpireIn(now()->addMinutes(config('bendt-auth.passport_expire_in_minute')));
         }
 
-
         //Load Migrations
         $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
 

@@ -11,6 +11,8 @@ class RoleGroup extends Model
 
     protected $with = [];
 
+    protected $guarded = [];
+
     public function users()
     {
         return $this->hasMany(Bendt\Auth\User::class);
