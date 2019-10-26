@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ae70c500-4035-4276-a403-3ba653d25231" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Models/OauthClients.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AuthServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controllers/API/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controllers/API/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Database/migrations/2014_10_12_000000_create_bendt_auth_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Database/migrations/2014_10_12_000000_create_bendt_auth_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Models/ModuleGroup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/ModuleGroup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Models/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/Role.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Models/RoleGroup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/RoleGroup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Models/RoleGroupPivot.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/RoleGroupPivot.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Seeder/AuthSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Seeder/AuthSeeder.php" afterDir="false" />
-    </list>
+    <list default="true" id="ae70c500-4035-4276-a403-3ba653d25231" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,29 +14,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ResetPasswordController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controllers/ResetPasswordController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="AuthSeeder.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Seeder/AuthSeeder.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
-              <caret line="134" column="58" selection-start-line="134" selection-start-column="58" selection-end-line="134" selection-end-column="58" />
+            <state relative-caret-position="1160">
+              <caret line="94" column="40" lean-forward="true" selection-start-line="94" selection-start-column="40" selection-end-line="94" selection-end-column="40" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AuthServiceProvider.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AuthServiceProvider.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/AuthServiceProvider.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="474">
+            <state relative-caret-position="627">
               <caret line="38" column="9" selection-start-line="38" selection-start-column="9" selection-end-line="38" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="composer.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/composer.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="38">
+              <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -56,7 +45,7 @@
         <entry file="file://$PROJECT_DIR$/src/Controllers/API/UserController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="266">
-              <caret line="31" column="9" lean-forward="true" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
+              <caret line="31" column="9" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -64,7 +53,7 @@
       <file leaf-file-name="2014_10_12_000000_create_bendt_auth_table.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Database/migrations/2014_10_12_000000_create_bendt_auth_table.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="87">
+            <state relative-caret-position="-705">
               <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
             </state>
           </provider>
@@ -74,7 +63,7 @@
         <entry file="file://$PROJECT_DIR$/src/Models/ModuleGroup.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="361">
-              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+              <caret line="19" selection-start-line="19" selection-end-line="19" />
             </state>
           </provider>
         </entry>
@@ -92,7 +81,7 @@
         <entry file="file://$PROJECT_DIR$/src/Models/Role.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="399">
-              <caret line="21" column="1" lean-forward="true" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+              <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -101,7 +90,7 @@
         <entry file="file://$PROJECT_DIR$/src/Models/RoleGroup.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-22">
-              <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="13" selection-end-column="28" />
+              <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="13" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -143,7 +132,6 @@
         <option value="$PROJECT_DIR$/src/routes/passport.php" />
         <option value="$PROJECT_DIR$/src/Models/User.php" />
         <option value="$PROJECT_DIR$/src/Models/ModuleAttribute.php" />
-        <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/src/Models/ModuleGroup.php" />
         <option value="$PROJECT_DIR$/src/Models/Module.php" />
         <option value="$PROJECT_DIR$/src/Models/RoleGroup.php" />
@@ -155,6 +143,7 @@
         <option value="$PROJECT_DIR$/src/Models/OauthClients.php" />
         <option value="$PROJECT_DIR$/src/Seeder/AuthSeeder.php" />
         <option value="$PROJECT_DIR$/src/AuthServiceProvider.php" />
+        <option value="$PROJECT_DIR$/composer.json" />
       </list>
     </option>
   </component>
@@ -322,7 +311,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41728000" />
+    <option name="totallyTimeSpent" value="41733000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1471" y="-1043" width="1629" height="963" extended-state="0" />
@@ -563,8 +552,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+        <state relative-caret-position="38">
+          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
         </state>
       </provider>
     </entry>
@@ -594,21 +583,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Seeder/AuthSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="134" column="58" selection-start-line="134" selection-start-column="58" selection-end-line="134" selection-end-column="58" />
+        <state relative-caret-position="1160">
+          <caret line="94" column="40" lean-forward="true" selection-start-line="94" selection-start-column="40" selection-end-line="94" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controllers/API/UserController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
-          <caret line="31" column="9" lean-forward="true" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
+          <caret line="31" column="9" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Database/migrations/2014_10_12_000000_create_bendt_auth_table.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87">
+        <state relative-caret-position="-705">
           <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
         </state>
       </provider>
@@ -616,7 +605,7 @@
     <entry file="file://$PROJECT_DIR$/src/Models/ModuleGroup.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="361">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
         </state>
       </provider>
     </entry>
@@ -630,14 +619,14 @@
     <entry file="file://$PROJECT_DIR$/src/Models/Role.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
-          <caret line="21" column="1" lean-forward="true" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+          <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Models/RoleGroup.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-22">
-          <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="13" selection-end-column="28" />
+          <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="13" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -650,7 +639,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AuthServiceProvider.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="474">
+        <state relative-caret-position="627">
           <caret line="38" column="9" selection-start-line="38" selection-start-column="9" selection-end-line="38" selection-end-column="9" />
         </state>
       </provider>
