@@ -1,6 +1,6 @@
 {
   "name": "bendt/auth",
-  "version": "1.4",
+  "version": "1.4.1",
   "homepage": "https://bendt.io",
   "license": "MIT",
   "description": "Laravel Auth Package",
