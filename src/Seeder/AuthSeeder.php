@@ -29,10 +29,6 @@ class AuthSeeder
                 'all',
                 'group' => [                 //must be included first
                     'group_name',            //string, includes all sub child & visibility true
-                    'group_name' => [
-                        'table_name',        //if string, then all permission granted
-                        'table_name' => ['create', 'view', 'update']          //if array allowed existed action
-                    ]
                 ],
                 'table' => [
                     'table_name',    //if string, then all permission granted,
@@ -210,12 +206,14 @@ class AuthSeeder
     private function role_group_pivot_by_group($role_group_id, $groups, $role_group)
     {
         foreach ($groups as $group => $options) {
-            if (gettype($options) === 'array') {
+            /*
+             * if (gettype($options) === 'array') {
                 foreach ($options as $table) {
                     if (gettype($table) === 'string') {
                         if (isset($groupedRolesByTable[$table])) {
                             foreach ($this->groupedRolesByTable[$table] as $role) {
-                                $this->seed_role_group_pivot($role['role']->id, $role_group_id);
+                                $hidden = in_array($role['table'],$this->hidden) ? 0 : 1;
+                                $this->seed_role_group_pivot($role['role']->id, $role_group_id, $hidden);
                             }
                         } else {
                             echo 'WARNING roleGroup[' . $role_group['name'] . '] -> roles[' . $group . '] -> table[' . $table . '] do not exists.' . PHP_EOL;
@@ -225,7 +223,8 @@ class AuthSeeder
                             if (in_array($action, $this->actions)) {
                                 foreach ($this->groupedRolesByTable[$table] as $role) {
                                     if ($this->groupedRolesByTable[$table]['role']->type == $action) {
-                                        $this->seed_role_group_pivot($role['role']->id, $role_group_id);
+                                        $hidden = in_array($role['table'],$this->hidden) ? 0 : 1;
+                                        $this->seed_role_group_pivot($role['role']->id, $role_group_id, $hidden);
                                     }
                                 }
                             } else {
@@ -234,12 +233,16 @@ class AuthSeeder
                         }
                     }
                 }
-            } else if (gettype($options) === 'string') {
+            } else
+            */
+
+            if (gettype($options) === 'string') {
                 //Check the string is present or exists in group
-                if (isset($this->groups[$group])) {
+                if (isset($this->groups[$options])) {
                     foreach ($this->roles as $role) {
-                        if ($role['group'] === $group) {
-                            $this->seed_role_group_pivot($role['role']->id, $role_group_id);
+                        if ($role['group'] === $options) {
+                            $hidden = in_array($role['table'],$this->hidden) ? 0 : 1;
+                            $this->seed_role_group_pivot($role['role']->id, $role_group_id, $hidden);
                         }
                     }
                 } else {
@@ -255,13 +258,14 @@ class AuthSeeder
     {
         $groupedRolesByTable = collect($this->roles)->groupBy('table')->all();
 
-        foreach ($tables as $table) {
+        foreach ($tables as $tableArrayName => $table) {
             if (gettype($table) === 'array') {
-                foreach ($table as $tableName => $action) {
+                foreach ($table as $action) {
                     if (in_array($action, $this->actions)) {
-                        foreach ($groupedRolesByTable[$table] as $role) {
-                            if ($groupedRolesByTable[$table]['role']->type == $action) {
-                                $this->seed_role_group_pivot($role['role']->id, $role_group_id);
+                        foreach ($groupedRolesByTable[$tableArrayName] as $role) {
+                            if ($role['role']->type == $action) {
+                                $hidden = in_array($role['table'],$this->hidden) ? 0 : 1;
+                                $this->seed_role_group_pivot($role['role']->id, $role_group_id, $hidden);
                             }
                         }
                     } else {
@@ -271,8 +275,10 @@ class AuthSeeder
             } else if (gettype($table) === 'string') {
                 //Check the string is present or exists in group
                 if (isset($this->groupedRolesByTable[$table])) {
+
                     foreach ($this->groupedRolesByTable[$table] as $role) {
-                        $this->seed_role_group_pivot($role['role']->id, $role_group_id);
+                        $hidden = in_array($role['table'],$this->hidden) ? 0 : 1;
+                        $this->seed_role_group_pivot($role['role']->id, $role_group_id, $hidden);
                     }
                 } else {
                     echo 'WARNING roleGroup[' . $role_group['name'] . '] -> table[' . $table . '] do not EXIST!' . PHP_EOL;
