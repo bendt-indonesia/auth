@@ -9,7 +9,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <form method="post" id="auth-form">
+    <form method="post" action="/password/email">
         {{ csrf_field() }}
         <div class="form-group has-feedback">
             <input type="email" class="form-control sty1" placeholder="Password"  name="email" value="{{ old('email') }}" required>
