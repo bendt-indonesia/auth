@@ -4,6 +4,7 @@ namespace Bendt\Auth\Controllers;
 
 use Exception;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Http\Request;
 
 class ForgotPasswordController extends Controller
 {
@@ -41,4 +42,46 @@ class ForgotPasswordController extends Controller
         return view(config('bendt-auth.email_view', 'bendt-auth::passwords.email'));
     }
 
+    /**
+     * Get the response for a successful password reset link.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetLinkResponse(Request $request, $response)
+    {
+        if(config('bendt-auth.response.resetLink.response_type') === 'json') {
+            return
+                response()->json([
+                'success' => 1,
+                'message' => config('bendt-auth.response.resetLink.success_msg')
+            ], 200);
+        } else {
+            return back()->with('status', trans($response));
+        }
+    }
+
+    /**
+     * Get the response for a failed password reset link.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetLinkFailedResponse(Request $request, $response)
+    {
+        if(config('bendt-auth.response.resetLink.response_type') === 'json') {
+            return
+                response()->json([
+                    'success' => 1,
+                    'message' => config('bendt-auth.response.resetLink.error_msg')
+                ], 200);
+        } else {
+            return back()
+                ->withInput($request->only('email'))
+                ->withErrors(['email' => trans($response)]);
+        }
+
+    }
 }

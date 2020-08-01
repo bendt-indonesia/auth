@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Bendt\Auth\Notifications\CustomResetPasswordNotification;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -87,5 +89,11 @@ class User extends Authenticatable
 
     public function isRoot() {
         return $this->is_root;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        // Your your own implementation.
+        $this->notify(new CustomResetPasswordNotification($token));
     }
 }
