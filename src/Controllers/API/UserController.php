@@ -70,7 +70,8 @@ class UserController extends ApiController
             $user->navigation = $navigation;
 
             $user->role = $user->role_group->name;
-            unset($user->role_group);
+            unset($user->role_group->rolesMenu);
+            unset($user->role_group->roles);
 
             return $user;
         } catch (\Exception $e) {
