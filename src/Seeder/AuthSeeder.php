@@ -13,7 +13,7 @@ class AuthSeeder
 {
 
     protected $groups = [
-        'system' => [
+        'system' => [                   //should be in lower case
             'table_name' => 'Master Table',
             'custom' => [                  //Level 2 Route
                 'title' => 'Master Table',
@@ -28,7 +28,7 @@ class AuthSeeder
             'roles' => [
                 'all',
                 'group' => [                 //must be included first
-                    'group_name',            //string, includes all sub child & visibility true
+                    'group_name',            //string, lowercase, includes all sub child & visibility true
                 ],
                 'table' => [
                     'table_name',    //if string, then all permission granted,
@@ -239,6 +239,7 @@ class AuthSeeder
             if (gettype($options) === 'string') {
                 //Check the string is present or exists in group
                 if (isset($this->groups[$options])) {
+                    $options = strtolower($options);
                     foreach ($this->roles as $role) {
                         if ($role['group'] === $options) {
                             $hidden = in_array($role['table'],$this->hidden) ? 0 : 1;
@@ -246,7 +247,7 @@ class AuthSeeder
                         }
                     }
                 } else {
-                    echo 'WARNING roleGroup[' . $role_group['name'] . '] -> roles[' . $group . '] do not EXIST!' . PHP_EOL;
+                    echo 'WARNING roleGroup[' . $role_group['name'] . '] -> roles[' . $options . '] do not EXIST!' . PHP_EOL;
                 }
             } else {
                 echo 'WARNING roleGroup[' . $role_group['name'] . '] -> roles[group] -> incorrect_format' . PHP_EOL;
