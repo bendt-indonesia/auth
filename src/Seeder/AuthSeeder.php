@@ -285,7 +285,7 @@ class AuthSeeder
                             }
                         }
                     } else {
-                        echo 'WARNING roleGroup[' . $role_group['name'] . '] -> table[' . $tableName . '] -> action[' . $action . '] incorrect' . PHP_EOL;
+                        echo 'WARNING roleGroup[' . $role_group['name'] . '] -> table[' . $table . '] -> action[' . $action . '] incorrect' . PHP_EOL;
                     }
                 }
             } else if (gettype($table) === 'string') {
