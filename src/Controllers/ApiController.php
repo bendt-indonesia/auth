@@ -54,6 +54,18 @@ class ApiController extends Controller
     }
 
     /**
+     * return custom validation error response.
+     *
+     * @param  array $errors || string $errors
+     * @param  integer $code
+     * @return \Illuminate\Http\Response
+     */
+    public function sendValidationError($errors = [], $code = 422)
+    {
+        return response()->json($errors, $code);
+    }
+
+    /**
      * Return error response.
      *
      *

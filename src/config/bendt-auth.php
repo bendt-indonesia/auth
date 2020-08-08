@@ -31,5 +31,7 @@ return [
             'success_msg' => 'Your password has been successfully saved!',
             'error_msg' => 'This password reset token is invalid.',
         ]
-    ]
+    ],
+
+    'cache_keys' => 'xMp9WzJAsGDzZLFS'
 ];

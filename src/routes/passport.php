@@ -12,4 +12,6 @@ Route::group([
 ], function() {
     Route::get('/api/user', 'UserController@index');
     Route::get('/api/logout', 'AuthController@logout');
+    Route::get('/api/roles', 'RoleGroupController@roles');
+    Route::post('/api/roles', 'RoleGroupController@saveRoles');
 });
