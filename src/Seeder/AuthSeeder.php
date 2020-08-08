@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 
 class AuthSeeder
 {
+    protected $groupNameAliases = [];
 
     protected $groups = [
         'system' => [                   //should be in lower case
@@ -60,12 +61,13 @@ class AuthSeeder
         'destroy',
     ];
 
-    public function __construct($groups, $roleGroups, $customRoute = [], $hidden = [], $actions = [])
+    public function __construct($groups, $roleGroups, $customRoute = [], $hidden = [], $actions = [], $groupNameAliases = [])
     {
         $this->groups = $groups;
         $this->roleGroups = $roleGroups;
         $this->customRoute = $customRoute;
         $this->hidden = $hidden;
+        $this->groupNameAliases = $groupNameAliases;
         if (count($actions) > 0) $this->actions = $actions;
     }
 
@@ -81,7 +83,7 @@ class AuthSeeder
 
         foreach ($this->groups as $group => $tables) {
             $groupModel = new ModuleGroup([
-                'name' => Str::title($group),
+                'name' => isset($this->groupNameAliases['group']) ? Str::title($this->groupNameAliases['group']) : Str::title($group),
                 'slug' => Str::slug($group)
             ]);
             $groupModel->save();
