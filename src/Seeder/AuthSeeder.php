@@ -96,7 +96,7 @@ class AuthSeeder
                         'group_id' => $groupModel->id,
                         'slug' => '/' . $groupModel->slug . '/' . Str::slug($table),
                         'table' => $table,
-                        'sort_no' => isset($content['sort_no'])?$content['sort_no']:null,
+                        'sort_no' => isset($content['sort_no'])?$content['sort_no']:0,
                         'is_visible' => in_array($table, $this->hidden) ? 0 : 1
                     ]);
                     $module->save();
@@ -129,7 +129,7 @@ class AuthSeeder
                         'name' => $content['title'],
                         'group_id' => $group->id,
                         'slug' => '/' . Str::slug($table),
-                        'sort_no' => isset($content['sort_no'])?$content['sort_no']:null,
+                        'sort_no' => isset($content['sort_no'])?$content['sort_no']:0,
                     ]);
                     $module->save();
                     $this->create_role($content['actions'], $module, $group->slug, $table);
