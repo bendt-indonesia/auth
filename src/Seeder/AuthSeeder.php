@@ -83,7 +83,7 @@ class AuthSeeder
 
         foreach ($this->groups as $group => $tables) {
             $groupModel = new ModuleGroup([
-                'name' => isset($this->groupNameAliases['group']) ? Str::title($this->groupNameAliases['group']) : Str::title($group),
+                'name' => isset($this->groupNameAliases[$group]) ? Str::title($this->groupNameAliases[$group]) : Str::title($group),
                 'slug' => Str::slug($group)
             ]);
             $groupModel->save();
@@ -124,7 +124,7 @@ class AuthSeeder
             foreach ($routes as $table => $content) {
 
                 if(is_array($content)) {
-                    
+
                     $module = new Module([
                         'name' => $content['title'],
                         'group_id' => $group->id,
