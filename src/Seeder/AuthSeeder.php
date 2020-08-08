@@ -18,7 +18,7 @@ class AuthSeeder
             'table_name' => 'Master Table',
             'custom' => [                  //Level 2 Route
                 'title' => 'Master Table',
-                'actions' => ['view','update']
+                'actions' => ['view','update']  // Receive Array or string 'all'
             ],
         ],
     ];
@@ -82,6 +82,8 @@ class AuthSeeder
         $modGroup = [];
 
         foreach ($this->groups as $group => $tables) {
+            $group = Str::snake($group);
+
             $groupModel = new ModuleGroup([
                 'name' => isset($this->groupNameAliases[$group]) ? Str::title($this->groupNameAliases[$group]) : Str::title($group),
                 'slug' => Str::slug($group)
@@ -101,7 +103,8 @@ class AuthSeeder
                     ]);
                     $module->save();
 
-                    $this->create_role($content['actions'], $module, $groupModel->slug, $table);
+                    $actions = isset($content['actions']) ? $content['actions'] : $this->actions;
+                    $this->create_role($actions, $module, $groupModel->slug, $table);
                 } else {
                     $module = new Module([
                         'name' => $content,
@@ -119,6 +122,8 @@ class AuthSeeder
 
         $modGroup = collect($modGroup)->keyBy('slug');
         foreach ($this->customRoute as $group => $routes) {
+            $group = Str::snake($group);
+
             if (!isset($modGroup[$group])) continue;
             $group = $modGroup[$group];
             foreach ($routes as $table => $content) {
@@ -132,7 +137,9 @@ class AuthSeeder
                         'sort_no' => isset($content['sort_no'])?$content['sort_no']:0,
                     ]);
                     $module->save();
-                    $this->create_role($content['actions'], $module, $group->slug, $table);
+
+                    $actions = isset($content['actions']) ? $content['actions'] : $this->actions;
+                    $this->create_role($actions, $module, $group->slug, $table);
 
                 } else {
 
@@ -191,6 +198,10 @@ class AuthSeeder
     }
 
     private function create_role($actions, $module, $group, $table) {
+        if($actions === 'all') {
+            $actions = $this->actions;
+        }
+
         foreach ($actions as $act) {
             $role = new Role([
                 'name' => strtoupper($act . '_' . Str::snake($table)),
