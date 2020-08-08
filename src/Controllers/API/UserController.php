@@ -35,8 +35,8 @@ class UserController extends ApiController
                 }
             }
 
-            $modules = Module::whereIn('id',$moduleIds)->get();
-            $modules = collect($modules)->groupBy('group_id')->map(function($item, $group_id) {
+            $modules = Module::with(['group'])->whereIn('id',$moduleIds)->get();
+            $modules = collect($modules)->sortBy('group.sort_no')->groupBy('group_id')->map(function($item, $group_id) {
                 $group = $item->first()->group;
 
                 $return = [
