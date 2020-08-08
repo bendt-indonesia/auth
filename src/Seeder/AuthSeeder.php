@@ -18,7 +18,7 @@ class AuthSeeder
             'table_name' => 'Master Table',
             'custom' => [                  //Level 2 Route
                 'title' => 'Master Table',
-                'actions' => ['view','update']  // Receive Array or string 'all'
+                'actions' => ['view','update']  // Receive Array or string 'all' || if unset then all actions
             ],
         ],
     ];
