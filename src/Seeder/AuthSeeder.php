@@ -95,12 +95,13 @@ class AuthSeeder
         return $groups;
     }
 
-    public function storeModuleGroup($group)
+    public function storeModuleGroup($group, $sort_no = 0)
     {
         $group_slug = Str::slug($group);
         $groupModel = new ModuleGroup([
             'name' => isset($this->groupNameAliases[$group]) ? Str::title($this->groupNameAliases[$group]) : Str::title($group),
-            'slug' => $group_slug
+            'slug' => $group_slug,
+            'sort_no' => $sort_no,
         ]);
         $groupModel->save();
 
@@ -162,12 +163,13 @@ class AuthSeeder
             $existing_group_key[] = $row->slug;
         }
 
+        $group_sort_no = count($moduleGroups);
         foreach ($this->groups as $group => $tables) {
             $group = Str::snake($group);
             $group_slug = Str::slug($group);
 
             if (!in_array($group_slug, $existing_group_key)) {
-                $moduleGroupModel = $this->storeModuleGroup($group);
+                $moduleGroupModel = $this->storeModuleGroup($group, $group_sort_no++);
                 $modGroup[] = $moduleGroupModel;
             } else {
                 $moduleGroupModel = collect($moduleGroups)->where('slug', $group_slug)->first();
@@ -210,9 +212,10 @@ class AuthSeeder
     {
         $modGroup = [];
         $sort_no = [];
+        $group_sort_no = 1;
         foreach ($this->groups as $group => $tables) {
             $group = Str::snake($group);
-            $roleGroup = $this->storeModuleGroup($group);
+            $roleGroup = $this->storeModuleGroup($group, $group_sort_no++);
             $modGroup[] = $roleGroup;
             $sort_no[$group] = 1;
             foreach ($tables as $table => $content) {
