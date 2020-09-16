@@ -17,9 +17,8 @@ class AuthSeeder
         'system' => [                   //should be in lower case
             'table_name' => 'Master Table',
             'custom' => [                  //Level 2 Route
-                'sort_no' => 0, //default 0
                 'title' => 'Master Table',
-                'actions' => ['view', 'update'],  // Receive Array or string 'all' || if unset then all actions
+                'actions' => ['view', 'update']  // Receive Array or string 'all' || if unset then all actions
             ],
         ],
     ];
@@ -33,6 +32,7 @@ class AuthSeeder
                     'group_name',            //string, lowercase, includes all sub child & visibility true
                 ],
                 'table' => [
+                    'sort_no' => 1, //optional
                     'table_name',    //if string, then all permission granted,
                     'table_name' => ['create', 'view', 'update']
                 ]
@@ -95,7 +95,7 @@ class AuthSeeder
         return $groups;
     }
 
-    public function storeModuleGroup($group, $sort_no = 0)
+    public function storeModuleGroup($group, $sort_no = 1)
     {
         $group_slug = Str::slug($group);
         $groupModel = new ModuleGroup([
@@ -163,7 +163,7 @@ class AuthSeeder
             $existing_group_key[] = $row->slug;
         }
 
-        $group_sort_no = count($moduleGroups);
+        $group_sort_no = 1;
         foreach ($this->groups as $group => $tables) {
             $group = Str::snake($group);
             $group_slug = Str::slug($group);
@@ -211,13 +211,10 @@ class AuthSeeder
     public function roles()
     {
         $modGroup = [];
-        $sort_no = [];
-        $group_sort_no = 1;
         foreach ($this->groups as $group => $tables) {
             $group = Str::snake($group);
-            $roleGroup = $this->storeModuleGroup($group, $group_sort_no++);
+            $roleGroup = $this->storeModuleGroup($group);
             $modGroup[] = $roleGroup;
-            $sort_no[$group] = 1;
             foreach ($tables as $table => $content) {
                 $table_slug = Str::slug($table);
                 if (is_array($content)) {
@@ -237,32 +234,26 @@ class AuthSeeder
                         'group_id' => $roleGroup->id,
                         'slug' => '/' . $roleGroup->slug . '/' . $table_slug,
                         'table' => $table,
-                        'is_visible' => in_array($table, $this->hidden) ? 0 : 1,
-                        'sort_no' => $sort_no[$group],
+                        'is_visible' => in_array($table, $this->hidden) ? 0 : 1
                     ]);
                     $this->create_role($this->actions, $module, $roleGroup->slug, $table);
                 }
-                $sort_no[$group]++;
             }
         }
 
         $modGroup = collect($modGroup)->keyBy('slug');
-        foreach ($this->customRoute as $group_name => $routes) {
-            $group_snake = Str::snake($group_name);
+        foreach ($this->customRoute as $group => $routes) {
+            $group = Str::snake($group);
 
-            if (!isset($modGroup[$group_snake])) {
-                echo 'Custom Route > Group ' . $group_name . ' not exists, routes skiped.' . PHP_EOL;
-                continue;
-            }
-
-            $group = $modGroup[$group_snake];
+            if (!isset($modGroup[$group])) continue;
+            $group = $modGroup[$group];
             foreach ($routes as $table => $content) {
                 if (is_array($content)) {
                     $module = $this->storeModule([
                         'name' => $content['title'],
                         'group_id' => $group->id,
                         'slug' => '/' . Str::slug($table),
-                        'sort_no' => isset($content['sort_no']) ? $content['sort_no'] : $sort_no[$group_snake],
+                        'sort_no' => isset($content['sort_no']) ? $content['sort_no'] : 0,
                     ]);
                     $actions = isset($content['actions']) ? $content['actions'] : $this->actions;
                     $this->create_role($actions, $module, $group->slug, $table);
@@ -271,11 +262,10 @@ class AuthSeeder
                         'name' => $content,
                         'group_id' => $group->id,
                         'slug' => '/' . Str::slug($table),
-                        'sort_no' => $sort_no[$group_snake]
                     ]);
                     $this->create_role($this->actions, $module, $group->slug, $table);
+
                 }
-                $sort_no[$group_snake]++;
             }
         }
     }
