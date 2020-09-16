@@ -211,9 +211,11 @@ class AuthSeeder
     public function roles()
     {
         $modGroup = [];
+
+        $group_sort_no = 1;
         foreach ($this->groups as $group => $tables) {
             $group = Str::snake($group);
-            $roleGroup = $this->storeModuleGroup($group);
+            $roleGroup = $this->storeModuleGroup($group, $group_sort_no++);
             $modGroup[] = $roleGroup;
             foreach ($tables as $table => $content) {
                 $table_slug = Str::slug($table);
