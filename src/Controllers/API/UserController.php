@@ -65,7 +65,7 @@ class UserController extends ApiController
     }
 
     public function fetchNavigation($moduleIds) {
-        $modules = Module::with(['group'])->whereIn('id',$moduleIds)->get();
+        $modules = Module::with(['group'])->orderBy('sort_no')->whereIn('id',$moduleIds)->get();
         $modules = collect($modules)->sortBy('group.sort_no')->groupBy('group_id')->map(function($item, $group_id) {
             $group = $item->first()->group;
 
