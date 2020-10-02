@@ -64,20 +64,20 @@ class UserController extends ApiController
         return $navigation;
     }
 
-    public function generateMenu($menu) {
+    public function generateMenu($item) {
         $menu = [
             'id' => Str::uuid(),
             'type' => 'item',
-            'title' => $menu->name,
-            'icon' => $menu->icon ? $menu->icon : 'keyboard_arrow_right',
-            'url' => $menu->slug,
+            'title' => $item->name,
+            'icon' => $item->icon ? $item->icon : 'keyboard_arrow_right',
+            'url' => $item->slug,
         ];
 
-        if(isset($menu->children) && count($menu->children) > 0) {
+        if(isset($item->children) && count($item->children) > 0) {
             $menu['type'] = 'collapse';
             $menu['icon'] = 'view_quilt';
             $menu['children'] = [];
-            foreach ($menu->children as $child) {
+            foreach ($item->children as $child) {
                 $menu['children'][] = $this->generateMenu($child);
             }
         }
@@ -86,24 +86,32 @@ class UserController extends ApiController
     }
 
     public function fetchNavigation($moduleIds) {
-        $modules = Module::with(['group','children'])->orderBy('sort_no')->whereIn('id',$moduleIds)->get();
-        $modules = collect($modules)->sortBy('group.sort_no')->groupBy('group_id')->map(function($item, $group_id) {
-            $group = $item->first()->group;
+        $modules = Module::with(['group','children'])
+            ->whereNull('parent_id')
+            ->whereIn('id',$moduleIds)
+            ->orderBy('sort_no')
+            ->get();
 
-            $return = [
-                'id' => Str::uuid(),
-                'group_id' => $group_id,
-                'title' => $group->name,
-                'name' => $group->name,
-                'slug' => $group->slug,
-                'type' => 'group',
-                'children' => $item->map(function($child) {
-                    return $this->generateMenu($child);
-                }),
-            ];
+        $modules = collect($modules)
+            ->sortBy('group.sort_no')
+            ->groupBy('group_id')
+            ->map(function($item, $group_id) {
+                $group = $item->first()->group;
 
-            return $return;
-        });
+                $return = [
+                    'id' => Str::uuid(),
+                    'group_id' => $group_id,
+                    'title' => $group->name,
+                    'name' => $group->name,
+                    'slug' => $group->slug,
+                    'type' => 'group',
+                    'children' => $item->map(function($child) {
+                        return $this->generateMenu($child);
+                    }),
+                ];
+
+                return $return;
+            });
 
         $navigation = [];
         foreach ($modules as $module) {
