@@ -25,4 +25,15 @@ class Module extends Model
     {
         return $this->hasMany(Role::class);
     }
+
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id')->orderBy('sort_no')->with('parent');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_id', 'id')->orderBy('sort_no')->with('parent');
+    }
+
 }

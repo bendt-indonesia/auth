@@ -64,8 +64,29 @@ class UserController extends ApiController
         return $navigation;
     }
 
+    public function generateMenu($menu) {
+        $menu = [
+            'id' => Str::uuid(),
+            'type' => 'item',
+            'title' => $menu->name,
+            'icon' => $menu->icon ? $menu->icon : 'keyboard_arrow_right',
+            'url' => $menu->slug,
+        ];
+
+        if(isset($menu->children) && count($menu->children) > 0) {
+            $menu['type'] = 'collapse';
+            $menu['icon'] = 'view_quilt';
+            $menu['children'] = [];
+            foreach ($menu->children as $child) {
+                $menu['children'][] = $this->generateMenu($child);
+            }
+        }
+
+        return $menu;
+    }
+
     public function fetchNavigation($moduleIds) {
-        $modules = Module::with(['group'])->orderBy('sort_no')->whereIn('id',$moduleIds)->get();
+        $modules = Module::with(['group','children'])->orderBy('sort_no')->whereIn('id',$moduleIds)->get();
         $modules = collect($modules)->sortBy('group.sort_no')->groupBy('group_id')->map(function($item, $group_id) {
             $group = $item->first()->group;
 
@@ -77,14 +98,7 @@ class UserController extends ApiController
                 'slug' => $group->slug,
                 'type' => 'group',
                 'children' => $item->map(function($child) {
-                    $children = [
-                        'id' => Str::uuid(),
-                        'type' => 'item',
-                        'title' => $child->name,
-                        'icon' => $child->icon ? $child->icon : 'keyboard_arrow_right',
-                        'url' => $child->slug,
-                    ];
-                    return $children;
+                    return $this->generateMenu($child);
                 }),
             ];
 

@@ -15,10 +15,24 @@ class AuthSeeder
 
     protected $groups = [
         'system' => [                   //should be in lower case
-            'table_name' => 'Master Table',
-            'custom' => [                  //Level 2 Route
-                'title' => 'Master Table',
-                'actions' => ['view', 'update']  // Receive Array or string 'all' || if unset then all actions
+            'table_name' => 'Master Table Name',                // Level 1 only
+            'table_name_2' => [
+                'title' => 'Master Table Name 2',               // Level 1
+                'actions' => ['view', 'update'],                // Receive Array or string 'all' || if unset then all actions,
+                'children' => [
+                    [
+                        'table' => 'table_name_3',              // Level 2
+                        'title' => 'Master Table Name 3',
+                        'actions' => ['view', 'update'],        // Receive Array or string 'all' || if unset then all actions,
+                        'children' => [
+                            [
+                                'table' => 'table_name_4',          // Level 3
+                                'title' => 'Master Table Name 4',
+                                'actions' => ['view', 'update'],    // Receive Array or string 'all' || if unset then all actions,
+                            ],
+                        ],
+                    ],
+                ]
             ],
         ],
     ];
@@ -91,8 +105,8 @@ class AuthSeeder
 
     public function getModules()
     {
-        $groups = Module::all();
-        return $groups;
+        $modules = Module::with(['children.children.children'])->get();
+        return $modules;
     }
 
     public function storeModuleGroup($group, $sort_no = 1)
@@ -116,50 +130,78 @@ class AuthSeeder
         return $module;
     }
 
-    public function findModule($modules, $moduleGroupModel, $actions, $table_name, $name, $sort_no)
-    {
+    public function storeModuleWithRoles($table_name, $moduleGroup, $moduleData) {
         $table_slug = Str::slug($table_name);
-        $length = strlen($table_slug) * -1;
-        echo $table_slug . PHP_EOL;
-        foreach ($modules as $module) {
-            if ($table_slug === 'language-option') {
-                echo $module->id . ' - ' . substr($module->slug, $length) . ' === ' . $table_slug . PHP_EOL;
+        $module = $this->storeModule([
+            'name' => isset($moduleData['name']) ? $moduleData['name'] : $moduleData['title'],
+            'group_id' => $moduleGroup->id,
+            'parent_id' => isset($moduleData['parent_id']) ? $moduleData['parent_id'] : null,
+            'slug' => '/' . $moduleGroup->slug . '/' . $table_slug,
+            'table' => $table_name,
+            'sort_no' => isset($moduleData['sort_no']) ? $moduleData['sort_no'] : 0,
+            'is_visible' => in_array($table_name, $this->hidden) ? 0 : 1,
+        ]);
+        $actions = isset($moduleData['actions']) ? $moduleData['actions'] : $this->actions;
+        $this->create_role($actions, $module, $moduleGroup->slug, $table_name);
+
+        if(isset($moduleData['children'])) {
+            foreach ($moduleData['children'] as $child) {
+                $this->storeModuleWithRoles($child['table'], $moduleGroup, array_merge([
+                    'parent_id' => $module->id
+                ], $child));
             }
-            if (substr($module->slug, $length) === $table_slug) {
-                // $module found and then group update
-                $module->name = $name;
-                $module->sort_no = $sort_no;
-                $module->is_visible = in_array($table_name, $this->hidden) ? 0 : 1;
-                $module->group_id = $moduleGroupModel->id;
-                $module->slug = '/' . $moduleGroupModel->slug . '/' . $table_slug;
-                $module->save();
-                $this->update_role($actions, $module, $moduleGroupModel->slug, $table_name);
+        }
+    }
+
+    public function updateModuleWithRoles($table_name, $moduleGroup, $currentModuleData, $updateModuleData) {
+
+        // $module found and then group update
+        if(isset($updateModuleData['parent_id'])) $currentModuleData->parent_id = $updateModuleData['parent_id'];
+
+        $currentModuleData->name = isset($updateModuleData['name']) ? $updateModuleData['name'] : $updateModuleData['title'];
+        $currentModuleData->sort_no = isset($updateModuleData['sort_no']) ? $updateModuleData['sort_no'] : 0;
+        $currentModuleData->is_visible = in_array($table_name, $this->hidden) ? 0 : 1;
+        $currentModuleData->group_id = $moduleGroup->id;
+        $currentModuleData->slug = '/' . $moduleGroup->slug . '/' . Str::slug($table_name);
+        $currentModuleData->save();
+
+        $actions = isset($updateModuleData['actions']) ? $updateModuleData['actions'] : $this->actions;
+        $this->update_role($actions, $currentModuleData, $moduleGroup->slug, $table_name);
+
+        if(isset($updateModuleData['children'])) {
+            foreach ($updateModuleData['children'] as $child) {
+                $this->findModule($child['table'], $moduleGroup, array_merge([
+                    'parent_id' => $currentModuleData->id,
+                ], $child));
+            }
+        }
+    }
+
+    public function findModule($table_name, $moduleGroup, $moduleData)
+    {
+        foreach ($this->modules as $module) {
+            if ($module->table === $table_name) {
+                $this->updateModuleWithRoles($table_name, $moduleGroup, $module, $moduleData);
+
                 return $module;
             }
         }
 
-        $module = $this->storeModule([
-            'name' => $name,
-            'group_id' => $moduleGroupModel->id,
-            'slug' => '/' . $moduleGroupModel->slug . '/' . $table_slug,
-            'table' => $table_name,
-            'sort_no' => $sort_no,
-            'is_visible' => in_array($table_name, $this->hidden) ? 0 : 1
-        ]);
-        $this->create_role($actions, $module, $moduleGroupModel->slug, $table_name);
+        $this->storeModuleWithRoles($table_name, $moduleGroup, $moduleData);
 
         return false;
     }
 
+    //Not SUPPORTED TO MOVING CHILDRENS
     public function sync_roles()
     {
         $existing_group_key = [];
-        $modGroup = [];
+        $existModuleGroups = [];
         $moduleGroups = $this->getModuleGroups();
-        $modules = $this->getModules();
+        $this->modules = $this->getModules();
 
         foreach ($moduleGroups as $row) {
-            $modGroup[] = $row;
+            $existModuleGroups[] = $row;
             $existing_group_key[] = $row->slug;
         }
 
@@ -167,21 +209,22 @@ class AuthSeeder
         foreach ($this->groups as $group => $tables) {
             $group = Str::snake($group);
             $group_slug = Str::slug($group);
-
             if (!in_array($group_slug, $existing_group_key)) {
                 $moduleGroupModel = $this->storeModuleGroup($group, $group_sort_no++);
-                $modGroup[] = $moduleGroupModel;
+                $existModuleGroups[] = $moduleGroupModel;
             } else {
                 $moduleGroupModel = collect($moduleGroups)->where('slug', $group_slug)->first();
             }
 
             foreach ($tables as $table => $content) {
                 if (is_array($content)) {
-                    $sort_no = isset($content['sort_no']) ? $content['sort_no'] : 0;
-                    $actions = isset($content['actions']) ? $content['actions'] : $this->actions;
-                    $this->findModule($modules, $moduleGroupModel, $actions, $table, $content['title'], $sort_no);
+                    $content['sort_no'] = isset($content['sort_no']) ? $content['sort_no'] : 0;
+                    $content['actions'] = isset($content['actions']) ? $content['actions'] : $this->actions;
+                    $this->findModule($table, $moduleGroupModel, $content);
                 } else {
-                    $this->findModule($modules, $moduleGroupModel, $this->actions, $table, $content, 0);
+                    $this->findModule($table, $moduleGroupModel, [
+                        'name' => $content
+                    ]);
                 }
             }
         }
@@ -189,24 +232,25 @@ class AuthSeeder
         foreach ($this->customRoute as $group_name => $routes) {
             $group = Str::snake($group_name);
 
-            if (!isset($modGroup[$group])) {
+            if (!isset($existModuleGroups[$group])) {
                 echo 'Custom Route > Group ' . $group_name . ' not exists, routes skiped.' . PHP_EOL;
                 continue;
             }
-            $moduleGroupModel = $modGroup[$group];
+            $moduleGroupModel = $existModuleGroups[$group];
 
             foreach ($routes as $table => $content) {
                 if (is_array($content)) {
-                    $sort_no = isset($content['sort_no']) ? $content['sort_no'] : 0;
-                    $actions = isset($content['actions']) ? $content['actions'] : $this->actions;
-                    $this->findModule($modules, $moduleGroupModel, $actions, $table, $content['title'], $sort_no);
+                    $content['sort_no'] = isset($content['sort_no']) ? $content['sort_no'] : 0;
+                    $content['actions'] = isset($content['actions']) ? $content['actions'] : $this->actions;
+                    $this->findModule($table, $moduleGroupModel, $content);
                 } else {
-                    $this->findModule($modules, $moduleGroupModel, $this->actions, $table, $content, 0);
+                    $this->findModule($table, $moduleGroupModel, [
+                        'name' => $table
+                    ]);
                 }
             }
         }
     }
-
 
     public function roles()
     {
@@ -215,30 +259,34 @@ class AuthSeeder
         $group_sort_no = 1;
         foreach ($this->groups as $group => $tables) {
             $group = Str::snake($group);
-            $roleGroup = $this->storeModuleGroup($group, $group_sort_no++);
-            $modGroup[] = $roleGroup;
+            $moduleGroup = $this->storeModuleGroup($group, $group_sort_no++);
+            $modGroup[] = $moduleGroup;
             foreach ($tables as $table => $content) {
-                $table_slug = Str::slug($table);
+//                $table_slug = Str::slug($table);
                 if (is_array($content)) {
-                    $module = $this->storeModule([
-                        'name' => $content['title'],
-                        'group_id' => $roleGroup->id,
-                        'slug' => '/' . $roleGroup->slug . '/' . $table_slug,
-                        'table' => $table,
-                        'sort_no' => isset($content['sort_no']) ? $content['sort_no'] : 0,
-                        'is_visible' => in_array($table, $this->hidden) ? 0 : 1
-                    ]);
-                    $actions = isset($content['actions']) ? $content['actions'] : $this->actions;
-                    $this->create_role($actions, $module, $roleGroup->slug, $table);
+                    $this->storeModuleWithRoles($table, $moduleGroup, $content);
+//                    $module = $this->storeModule([
+//                        'name' => $content['title'],
+//                        'group_id' => $roleGroup->id,
+//                        'slug' => '/' . $roleGroup->slug . '/' . $table_slug,
+//                        'table' => $table,
+//                        'sort_no' => isset($content['sort_no']) ? $content['sort_no'] : 0,
+//                        'is_visible' => in_array($table, $this->hidden) ? 0 : 1
+//                    ]);
+//                    $actions = isset($content['actions']) ? $content['actions'] : $this->actions;
+//                    $this->create_role($actions, $module, $roleGroup->slug, $table);
                 } else {
-                    $module = $this->storeModule([
+                    $this->storeModuleWithRoles($table, $moduleGroup, [
                         'name' => $content,
-                        'group_id' => $roleGroup->id,
-                        'slug' => '/' . $roleGroup->slug . '/' . $table_slug,
-                        'table' => $table,
-                        'is_visible' => in_array($table, $this->hidden) ? 0 : 1
                     ]);
-                    $this->create_role($this->actions, $module, $roleGroup->slug, $table);
+//                    $module = $this->storeModule([
+//                        'name' => $content,
+//                        'group_id' => $roleGroup->id,
+//                        'slug' => '/' . $roleGroup->slug . '/' . $table_slug,
+//                        'table' => $table,
+//                        'is_visible' => in_array($table, $this->hidden) ? 0 : 1
+//                    ]);
+//                    $this->create_role($this->actions, $module, $roleGroup->slug, $table);
                 }
             }
         }
@@ -248,24 +296,30 @@ class AuthSeeder
             $group = Str::snake($group);
 
             if (!isset($modGroup[$group])) continue;
-            $group = $modGroup[$group];
+            $moduleGroup = $modGroup[$group];
+
             foreach ($routes as $table => $content) {
                 if (is_array($content)) {
-                    $module = $this->storeModule([
-                        'name' => $content['title'],
-                        'group_id' => $group->id,
-                        'slug' => '/' . Str::slug($table),
-                        'sort_no' => isset($content['sort_no']) ? $content['sort_no'] : 0,
-                    ]);
-                    $actions = isset($content['actions']) ? $content['actions'] : $this->actions;
-                    $this->create_role($actions, $module, $group->slug, $table);
+                    $this->storeModuleWithRoles($table, $moduleGroup, $content);
+
+//                    $module = $this->storeModule([
+//                        'name' => $content['title'],
+//                        'group_id' => $moduleGroup->id,
+//                        'slug' => '/' . Str::slug($table),
+//                        'sort_no' => isset($content['sort_no']) ? $content['sort_no'] : 0,
+//                    ]);
+//                    $actions = isset($content['actions']) ? $content['actions'] : $this->actions;
+//                    $this->create_role($actions, $module, $moduleGroup->slug, $table);
                 } else {
-                    $module = $this->storeModule([
-                        'name' => $content,
-                        'group_id' => $group->id,
-                        'slug' => '/' . Str::slug($table),
+                    $this->storeModuleWithRoles($table, $moduleGroup, [
+                        'name' => $content
                     ]);
-                    $this->create_role($this->actions, $module, $group->slug, $table);
+//                    $module = $this->storeModule([
+//                        'name' => $content,
+//                        'group_id' => $moduleGroup->id,
+//                        'slug' => '/' . Str::slug($table),
+//                    ]);
+//                    $this->create_role($this->actions, $module, $moduleGroup->slug, $table);
 
                 }
             }
