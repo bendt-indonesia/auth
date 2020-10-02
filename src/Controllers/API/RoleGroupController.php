@@ -5,7 +5,9 @@ namespace Bendt\Auth\Controllers\API;
 use Bendt\Auth\Controllers\ApiController;
 use Bendt\Auth\Models\Module;
 use Bendt\Auth\Models\ModuleGroup;
+use Bendt\Auth\Models\Role;
 use Bendt\Auth\Models\RoleGroup;
+use Bendt\Auth\Models\RoleGroupPivot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -72,10 +74,7 @@ class RoleGroupController extends ApiController
                 $pivot->save();
             }
 
-            $user = $request->user();
-            $cacheKeys = config('bendt-auth.cache_keys', 'MfrD3rnHmV5PQxXY');
-            $userCacheKeys = $user->id.'--'.$cacheKeys;
-            Cache::forget($userCacheKeys);
+            Cache::flush();
 
             DB::commit();
 
