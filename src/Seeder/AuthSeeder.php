@@ -94,7 +94,7 @@ class AuthSeeder
 
     public function update_seed()
     {
-        $this->sync_roles();
+        $this->syncModules();
     }
 
     public function getModuleGroups()
@@ -192,8 +192,7 @@ class AuthSeeder
         return false;
     }
 
-    //Not SUPPORTED TO MOVING CHILDRENS
-    public function sync_roles()
+    public function syncModules()
     {
         $existing_group_key = [];
         $existModuleGroups = [];
@@ -361,11 +360,6 @@ class AuthSeeder
             ]);
             $pivot->save();
         }
-    }
-
-    private function create_module()
-    {
-
     }
 
     private function create_role($actions, $module, $group, $table)
