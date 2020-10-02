@@ -66,7 +66,7 @@ class AuthSeeder
     protected $roles = [];
     protected $groupedRolesByTable = [];
     protected $modules = [];
-    protected $module_group = [];
+    protected $moduleGroups = [];
     protected $hidden = [];
 
     protected $actions = [
@@ -95,6 +95,18 @@ class AuthSeeder
     public function update_seed()
     {
         $this->syncModules();
+    }
+
+    //$updatedGroups received key & array
+    public function update_group($updatedGroups) {
+        $this->moduleGroups = ModuleGroup::all()->keyBy('slug')->all();
+        foreach ($updatedGroups as $slug => $data) {
+            $slug = Str::snake($slug);
+            if(isset($this->moduleGroups[$slug])) {
+                $this->moduleGroups[$slug]->fill($data);
+                $this->moduleGroups[$slug]->save();
+            }
+        }
     }
 
     public function getModuleGroups()
@@ -360,6 +372,11 @@ class AuthSeeder
             ]);
             $pivot->save();
         }
+    }
+
+    private function create_module()
+    {
+
     }
 
     private function create_role($actions, $module, $group, $table)
