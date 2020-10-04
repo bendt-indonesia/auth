@@ -66,11 +66,12 @@ class UserController extends ApiController
 
     public function generateMenu($item) {
         $menu = [
-            'id' => Str::uuid(),
+            'id' => $item->table ? $item->table : Str::uuid(),
             'type' => 'item',
             'title' => $item->name,
             'icon' => $item->icon ? $item->icon : 'keyboard_arrow_right',
             'url' => $item->slug,
+            'sort_no' => $item->sort_no
         ];
 
         if(isset($item->children) && count($item->children) > 0) {
@@ -93,7 +94,7 @@ class UserController extends ApiController
             ->get();
 
         $modules = collect($modules)
-            ->sortBy('group.sort_no')
+            ->sortBy('sort_no')
             ->groupBy('group_id')
             ->map(function($item, $group_id) {
                 $group = $item->first()->group;
@@ -105,6 +106,7 @@ class UserController extends ApiController
                     'name' => $group->name,
                     'slug' => $group->slug,
                     'type' => 'group',
+                    'sort_no' => $group->sort_no,
                     'children' => $item->map(function($child) {
                         return $this->generateMenu($child);
                     }),
@@ -114,6 +116,7 @@ class UserController extends ApiController
             });
 
         $navigation = [];
+        $modules = collect($modules)->sortBy('sort_no')->values()->toArray();
         foreach ($modules as $module) {
             $navigation[] = $module;
         }

@@ -15,6 +15,7 @@ class UpdateModuleTable extends Migration
     {
         Schema::table('module', function (Blueprint $table) {
             $table->unsignedInteger('parent_id')->after('table')->nullable();
+            $table->string('table', 80)->unique()->nullable()->change();
         });
     }
 
