@@ -16,7 +16,9 @@
       "homepage": "https://www.hupercloud.com"
     }
   ],
-  "require": {},
+  "require": {
+      "doctrine/dbal": "^2.9"
+  },
   "autoload": {
     "psr-4": {
       "Bendt\\Auth\\": "src/"
