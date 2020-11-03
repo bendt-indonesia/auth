@@ -24,13 +24,20 @@ class AuthServiceProvider extends ServiceProvider
             __DIR__.'/config/bendt-auth.php' => config_path('bendt-auth.php'),
         ], 'config');
 
+        require __DIR__ . '/helper.php';
+
         //Require Routes if not disabled
         if(!config('bendt-auth.routes_disabled', false)) {
             require __DIR__ . '/routes/web.php';
         }
         //Require Routes if not disabled
         if(config('bendt-auth.passport', false)) {
-            Passport::routes();
+            $with_catpcha = config('bendt-auth.recaptcha', false);
+            if($with_catpcha) {
+                Passport::routes(null,['middleware' => \Bendt\Auth\Middleware\RecaptchaAPI::class]);
+            } else {
+                Passport::routes();
+            }
             require __DIR__ . '/routes/passport.php';
         }
 
@@ -49,6 +56,7 @@ class AuthServiceProvider extends ServiceProvider
 
         //Define Gates
         $this->registerAuthorizationPolicies();
+
     }
 
     /**

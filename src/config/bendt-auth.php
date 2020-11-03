@@ -33,5 +33,10 @@ return [
         ]
     ],
 
-    'cache_keys' => 'xMp9WzJAsGDzZLFS'
+    'cache_keys' => 'xMp9WzJAsGDzZLFS',
+
+    //Invisible Recaptcha Google V2
+    'recaptcha' => false,
+    'recaptcha_secret' => '',
+    'recaptcha_client' => '',
 ];
