@@ -15,3 +15,11 @@ Route::group([
     Route::get('/api/roles', 'RoleGroupController@roles');
     Route::post('/api/roles', 'RoleGroupController@saveRoles');
 });
+
+Route::group([
+    'namespace' => 'Bendt\Auth\Controllers\API',
+    'middleware' => \Bendt\Auth\Middleware\RecaptchaAPI::class,
+], function() {
+    Route::post('/api/password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('passport.password.email');
+    Route::post('/api/password/reset', 'ResetPasswordController@reset')->name('passport.password.reset');
+});
