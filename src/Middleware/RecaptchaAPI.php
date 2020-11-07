@@ -48,7 +48,7 @@ class RecaptchaAPI
                 return abt_custom('Oops!', 'We are unable to verify you are a human or a bot.');
             }
         } else if ($grant_type === 'refresh_token' && $path === 'oauth/token') {
-            return abt_custom('Oops!', 'We are unable to verify you are a human or a bot.');
+            return $next($request);
         } else {
             return abt_custom('Oops!', 'We are unable to verify you are a human or a bot.');
         }
