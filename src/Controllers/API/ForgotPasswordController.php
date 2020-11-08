@@ -56,7 +56,7 @@ class ForgotPasswordController extends Controller
             response()->json([
             'success' => 1,
             'message' => config('bendt-auth.response.resetLink.success_msg')
-        ], 200);
+        ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
 
     /**
@@ -72,6 +72,6 @@ class ForgotPasswordController extends Controller
             response()->json([
                 'success' => 1,
                 'message' => config('bendt-auth.response.resetLink.error_msg')
-            ], 200);
+            ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
 }

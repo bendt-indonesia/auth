@@ -43,7 +43,7 @@ class UserController extends ApiController
             unset($user->role_group->rolesMenu);
             unset($user->role_group->roles);
 
-            return $user;
+            return response()->json($user, 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
         } catch (\Exception $e) {
             return $this->sendException($e);
         }

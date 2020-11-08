@@ -26,7 +26,7 @@ class ApiController extends Controller
         if($data) $response['data'] = $data;
         if(!is_null($message)) $response['message'] = $message;
 
-        return response()->json($response, $code);
+        return response()->json($response, $code)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
 
 
@@ -50,7 +50,7 @@ class ApiController extends Controller
         }
 
 
-        return response()->json($response, $code);
+        return response()->json($response, $code)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
 
     /**
@@ -62,7 +62,7 @@ class ApiController extends Controller
      */
     public function sendValidationError($errors = [], $code = 422)
     {
-        return response()->json($errors, $code);
+        return response()->json($errors, $code)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
 
     /**
@@ -87,7 +87,7 @@ class ApiController extends Controller
                 ]
             ];
 
-            return response()->json($response, 400);
+            return response()->json($response, 400)->setEncodingOptions(JSON_NUMERIC_CHECK);
 
         } else if($exception instanceof AuthorizationException) {
 
@@ -99,7 +99,7 @@ class ApiController extends Controller
                     'code' => 401,
                 ]
             ];
-            return response()->json($response, 401);
+            return response()->json($response, 401)->setEncodingOptions(JSON_NUMERIC_CHECK);
 
         } else if($exception instanceof QueryException) {
 
@@ -111,7 +111,7 @@ class ApiController extends Controller
                     'code' => $exception->getCode(),
                 ]
             ];
-            return response()->json($response, 422);
+            return response()->json($response, 422)->setEncodingOptions(JSON_NUMERIC_CHECK);
 
         } else {
 
@@ -125,7 +125,7 @@ class ApiController extends Controller
                 ]
             ];
 
-            return response()->json($response, 400);
+            return response()->json($response, 400)->setEncodingOptions(JSON_NUMERIC_CHECK);
         }
     }
 }

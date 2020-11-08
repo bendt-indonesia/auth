@@ -58,7 +58,7 @@ class ResetPasswordController extends Controller
             response()->json([
                 'success' => 1,
                 'message' => config('bendt-auth.response.reset.success_msg')
-            ], 200);
+            ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
 
     /**
@@ -74,6 +74,6 @@ class ResetPasswordController extends Controller
             response()->json([
                 'success' => 0,
                 'message' => config('bendt-auth.response.reset.error_msg')
-            ], 422);
+            ], 422)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
 }
