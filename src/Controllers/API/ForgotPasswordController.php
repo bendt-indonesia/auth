@@ -6,6 +6,7 @@ use Bendt\Auth\Controllers\Controller;
 use Exception;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
@@ -73,5 +74,15 @@ class ForgotPasswordController extends Controller
                 'success' => 1,
                 'message' => config('bendt-auth.response.resetLink.error_msg')
             ], 200)->setEncodingOptions(JSON_NUMERIC_CHECK);
+    }
+
+    /**
+     * Get the broker to be used during password reset.
+     *
+     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     */
+    public function broker()
+    {
+        return Password::broker(config('bendt-auth.broker.api','users'));
     }
 }

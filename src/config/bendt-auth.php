@@ -8,6 +8,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'broker' => [
+        'api' => 'users',
+        'web' => 'users',
+    ],
+
     'redirect_to' => '/backend',
     'register_enabled' => false,
     'forgot_enabled' => true,
