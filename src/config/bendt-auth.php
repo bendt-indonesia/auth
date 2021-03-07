@@ -21,6 +21,7 @@ return [
     'email_view' => 'bendt-auth::passwords.email',
     'reset_view' => 'bendt-auth::passwords.reset',
     'routes_disabled' => false,
+    'migration_autoload' => true,
     'passport' => false,
     'passport_expire_in_minute' => 0,
 
