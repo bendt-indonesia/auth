@@ -52,6 +52,14 @@ class LoginController extends Controller
             $this->middleware('guest')->except('logout');
         }
     }
+    
+    /**
+     * Redirect user after authenticated to desired redirect URL
+     *
+     */
+    protected function authenticated(Request $request) {
+        if($request->input('redirect')) $this->redirectTo = $request->input('redirect');
+    }
 
     /**
      * Get the login username to be used by the controller.
