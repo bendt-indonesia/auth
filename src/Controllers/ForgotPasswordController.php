@@ -40,7 +40,7 @@ class ForgotPasswordController extends Controller
      */
     public function showLinkRequestForm()
     {
-        return view(config('bendt-auth.email_view', 'bendt-auth::passwords.email'));
+        return view(new_config('bendt-auth.view.email','bendt-auth.email_view', 'bendt-auth::passwords.email'));
     }
 
     /**

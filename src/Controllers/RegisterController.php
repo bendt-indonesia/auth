@@ -24,7 +24,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        return view(config('bendt-auth.register_view', 'bendt-auth::register'));
+        return view(new_config('bendt-auth.view.register','bendt-auth.register_view', 'bendt-auth::register'));
     }
 
     /**
@@ -40,6 +40,8 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
+        $this->redirectTo = config('bendt-auth.redirect_to');
+
         if(config('bendt-auth.register_enabled')==false) {
             throw new Exception('Register not allowed!');
         }
@@ -55,11 +57,12 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $validator = config('bendt-auth.validator.store', [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
+        return Validator::make($data, $validator);
     }
 
     /**
@@ -70,10 +73,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $fields = config('bendt-auth.fields', ['name','email','password']);
+        $userData = [];
+
+        foreach ($fields as $field_name => $field_type) {
+            if(isset($data[$field_name])) {
+                if($field_type === 'password') {
+                    $userData[$field_type] = bcrypt($data[$field_name]);
+                } else {
+                    $userData[$field_type] = $data[$field_name];
+                }
+            }
+        }
+        return User::create($userData);
     }
 }

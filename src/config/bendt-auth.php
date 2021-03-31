@@ -16,10 +16,6 @@ return [
     'redirect_to' => '/backend',
     'register_enabled' => false,
     'forgot_enabled' => true,
-    'login_view' => 'bendt-auth::login',
-    'register_view' => 'bendt-auth::register',
-    'email_view' => 'bendt-auth::passwords.email',
-    'reset_view' => 'bendt-auth::passwords.reset',
     'routes_disabled' => false,
     'migration_autoload' => true,
     'passport' => false,
@@ -45,4 +41,36 @@ return [
     'recaptcha' => false,
     'recaptcha_secret' => '',
     'recaptcha_client' => '',
+
+    'fields' => [
+        'name' => 'text',
+        'email' => 'email',
+        'password' => 'password',
+    ],
+
+    'validator' => [
+        'store' => [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ],
+        'update' => [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'nullable|string|min:6|confirmed',
+        ],
+    ],
+
+    'view' => [
+        'email' => 'bendt-auth::passwords.email',
+        'login' => 'bendt-auth::login',
+        'register' => 'bendt-auth::register',
+        'reset' => 'bendt-auth::passwords.reset',
+    ],
+
+    //Backward compatibility -- Not used since 1 April 2021
+    'login_view' => 'view.email',
+    'register_view' => 'view.login',
+    'email_view' => 'view.register',
+    'reset_view' => 'view.reset',
 ];

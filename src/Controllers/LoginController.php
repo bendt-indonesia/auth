@@ -37,7 +37,8 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return view(config('bendt-auth.login_view', 'auth.login'));
+        $loginView = new_config('bendt-auth.view.login','bendt-auth.login_view','auth.login');
+        return view($loginView);
     }
 
     /**
@@ -48,6 +49,7 @@ class LoginController extends Controller
     public function __construct(Request $request)
     {
         $this->redirectTo = config('bendt-auth.redirect_to');
+
         if(!$request->get('relogin')) {
             $this->middleware('guest')->except('logout');
         }

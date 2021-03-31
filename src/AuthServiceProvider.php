@@ -24,7 +24,7 @@ class AuthServiceProvider extends ServiceProvider
             __DIR__.'/config/bendt-auth.php' => config_path('bendt-auth.php'),
         ], 'config');
 
-        require __DIR__ . '/helper.php';
+        require __DIR__ . '/auth-helper.php';
 
         //Require Routes if not disabled
         if(!config('bendt-auth.routes_disabled', false)) {
