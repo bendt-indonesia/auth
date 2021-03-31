@@ -8,19 +8,29 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    //Auth Broker
     'broker' => [
         'api' => 'users',
         'web' => 'users',
     ],
 
+    //Auth Cache Keys
+    'cache_keys' => 'xMp9WzJAsGDzZLFS',
+
+    //Redirect after Login & Registration
     'redirect_to' => '/backend',
+
+    //Function
     'register_enabled' => false,
     'forgot_enabled' => true,
     'routes_disabled' => false,
+
+    //Migration for Bendt modules & Roles
     'migration_autoload' => true,
     'passport' => false,
     'passport_expire_in_minute' => 0,
 
+    //Response
     'response' => [
         'resetLink' => [
             'base_url' => '', //if exists then using this (end with / ), otherwise using url()
@@ -35,8 +45,6 @@ return [
         ]
     ],
 
-    'cache_keys' => 'xMp9WzJAsGDzZLFS',
-
     //Invisible Recaptcha Google V2
     'recaptcha' => false,
     'recaptcha_secret' => '',
@@ -48,6 +56,7 @@ return [
         'password' => 'password',
     ],
 
+    //Validator for registration & update
     'validator' => [
         'store' => [
             'name' => 'required|string|max:255',
@@ -61,6 +70,7 @@ return [
         ],
     ],
 
+    //View
     'view' => [
         'email' => 'bendt-auth::passwords.email',
         'login' => 'bendt-auth::login',
