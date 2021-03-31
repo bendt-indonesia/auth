@@ -2,7 +2,7 @@
 namespace Bendt\Auth\Controllers;
 
 use Illuminate\Http\Request;
-use Bendt\Auth\Models\User;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 

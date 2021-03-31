@@ -5,7 +5,7 @@ namespace Bendt\Auth\Controllers;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Bendt\Auth\Models\User;
+use App\User;
 
 class RegisterController extends Controller
 {
