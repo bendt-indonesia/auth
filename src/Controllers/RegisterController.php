@@ -79,9 +79,9 @@ class RegisterController extends Controller
         foreach ($fields as $field_name => $field_type) {
             if(isset($data[$field_name])) {
                 if($field_type === 'password') {
-                    $userData[$field_type] = bcrypt($data[$field_name]);
+                    $userData[$field_name] = bcrypt($data[$field_name]);
                 } else {
-                    $userData[$field_type] = $data[$field_name];
+                    $userData[$field_name] = $data[$field_name];
                 }
             }
         }
