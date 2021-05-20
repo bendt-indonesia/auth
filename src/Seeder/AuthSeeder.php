@@ -266,38 +266,26 @@ class AuthSeeder
     public function roles()
     {
         $modGroup = [];
-
         $group_sort_no = 1;
+        $sort_nos = [];
+
         foreach ($this->groups as $group => $tables) {
             $group = Str::snake($group);
             $moduleGroup = $this->storeModuleGroup($group, $group_sort_no++);
             $modGroup[] = $moduleGroup;
+            if(!isset($sort_nos[$group])) {
+                $sort_nos[$group] = 1;
+            }
             foreach ($tables as $table => $content) {
-//                $table_slug = Str::slug($table);
                 if (is_array($content)) {
-                    $this->storeModuleWithRoles($table, $moduleGroup, $content);
-//                    $module = $this->storeModule([
-//                        'name' => $content['title'],
-//                        'group_id' => $roleGroup->id,
-//                        'slug' => '/' . $roleGroup->slug . '/' . $table_slug,
-//                        'table' => $table,
-//                        'sort_no' => isset($content['sort_no']) ? $content['sort_no'] : 0,
-//                        'is_visible' => in_array($table, $this->hidden) ? 0 : 1
-//                    ]);
-//                    $actions = isset($content['actions']) ? $content['actions'] : $this->actions;
-//                    $this->create_role($actions, $module, $roleGroup->slug, $table);
+                    $this->storeModuleWithRoles($table, $moduleGroup, array_merge($content, [
+                        'sort_no' => $sort_nos[$group]++
+                    ]));
                 } else {
                     $this->storeModuleWithRoles($table, $moduleGroup, [
                         'name' => $content,
+                        'sort_no' => $sort_nos[$group]++,
                     ]);
-//                    $module = $this->storeModule([
-//                        'name' => $content,
-//                        'group_id' => $roleGroup->id,
-//                        'slug' => '/' . $roleGroup->slug . '/' . $table_slug,
-//                        'table' => $table,
-//                        'is_visible' => in_array($table, $this->hidden) ? 0 : 1
-//                    ]);
-//                    $this->create_role($this->actions, $module, $roleGroup->slug, $table);
                 }
             }
         }
@@ -308,30 +296,19 @@ class AuthSeeder
 
             if (!isset($modGroup[$group])) continue;
             $moduleGroup = $modGroup[$group];
-
+            if(!isset($sort_nos[$group])) {
+                $sort_nos[$group] = 1;
+            }
             foreach ($routes as $table => $content) {
                 if (is_array($content)) {
-                    $this->storeModuleWithRoles($table, $moduleGroup, $content);
-
-//                    $module = $this->storeModule([
-//                        'name' => $content['title'],
-//                        'group_id' => $moduleGroup->id,
-//                        'slug' => '/' . Str::slug($table),
-//                        'sort_no' => isset($content['sort_no']) ? $content['sort_no'] : 0,
-//                    ]);
-//                    $actions = isset($content['actions']) ? $content['actions'] : $this->actions;
-//                    $this->create_role($actions, $module, $moduleGroup->slug, $table);
+                    $this->storeModuleWithRoles($table, $moduleGroup, array_merge($content, [
+                        'sort_no' => $sort_nos[$group]++,
+                    ]));
                 } else {
                     $this->storeModuleWithRoles($table, $moduleGroup, [
-                        'name' => $content
+                        'name' => $content,
+                        'sort_no' => $sort_nos[$group]++,
                     ]);
-//                    $module = $this->storeModule([
-//                        'name' => $content,
-//                        'group_id' => $moduleGroup->id,
-//                        'slug' => '/' . Str::slug($table),
-//                    ]);
-//                    $this->create_role($this->actions, $module, $moduleGroup->slug, $table);
-
                 }
             }
         }
