@@ -22,6 +22,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/config/bendt-auth.php' => config_path('bendt-auth.php'),
+            __DIR__.'/Database/migrations' => base_path('database/migrations'),
         ], 'config');
 
         require __DIR__ . '/auth-helper.php';
@@ -43,11 +44,6 @@ class AuthServiceProvider extends ServiceProvider
 
         if(config('bendt-auth.passport', true) && config('bendt-auth.passport_expire_in_minute',0)) {
             Passport::tokensExpireIn(now()->addMinutes(config('bendt-auth.passport_expire_in_minute')));
-        }
-
-        if(config('bendt-auth.migration_autoload', true)) {
-            //Load Migrations
-            $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
         }
 
         //Load Views

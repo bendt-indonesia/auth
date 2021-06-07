@@ -26,7 +26,6 @@ return [
     'routes_disabled' => false,
 
     //Migration for Bendt modules & Roles
-    'migration_autoload' => true,
     'passport' => false,
     'passport_expire_in_minute' => 0,
 
