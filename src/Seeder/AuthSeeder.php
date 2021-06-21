@@ -244,8 +244,8 @@ class AuthSeeder
             $group = Str::snake($group_name);
 
             if (!isset($existModuleGroups[$group])) {
-                echo 'Custom Route > Group ' . $group_name . ' not exists, routes skiped.' . PHP_EOL;
-                continue;
+                $moduleGroupModel = $this->storeModuleGroup($group, $group_sort_no++);
+                $existModuleGroups[] = $moduleGroupModel;
             }
             $moduleGroupModel = $existModuleGroups[$group];
 
