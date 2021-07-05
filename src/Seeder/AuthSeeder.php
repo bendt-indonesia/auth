@@ -121,6 +121,7 @@ class AuthSeeder
         return $modules;
     }
 
+
     public function storeModuleGroup($group, $sort_no = 1)
     {
         $group_slug = Str::slug($group);
@@ -223,6 +224,7 @@ class AuthSeeder
             if (!in_array($group_slug, $existing_group_key)) {
                 $moduleGroupModel = $this->storeModuleGroup($group, $group_sort_no++);
                 $existModuleGroups[] = $moduleGroupModel;
+                $existing_group_key[] = $moduleGroupModel->slug;
             } else {
                 $moduleGroupModel = collect($moduleGroups)->where('slug', $group_slug)->first();
             }
@@ -240,14 +242,16 @@ class AuthSeeder
             }
         }
 
+        $existModuleGroupsKeyBySlug = collect($existModuleGroups)->keyBy('slug')->all();
+
         foreach ($this->customRoute as $group_name => $routes) {
             $group = Str::snake($group_name);
 
-            if (!isset($existModuleGroups[$group])) {
+            if (!in_array($group, $existing_group_key)) {
                 $moduleGroupModel = $this->storeModuleGroup($group, $group_sort_no++);
-                $existModuleGroups[] = $moduleGroupModel;
+                $existModuleGroupsKeyBySlug[$moduleGroupModel->slug] = $moduleGroupModel;
             }
-            $moduleGroupModel = $existModuleGroups[$group];
+            $moduleGroupModel = $existModuleGroupsKeyBySlug[$group];
 
             foreach ($routes as $table => $content) {
                 if (is_array($content)) {
