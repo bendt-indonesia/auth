@@ -17,7 +17,7 @@
     }
   ],
   "require": {
-      "doctrine/dbal": "^2.9"
+      "doctrine/dbal": "^2.9|^3.1"
   },
   "autoload": {
     "psr-4": {
