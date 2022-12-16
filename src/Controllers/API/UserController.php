@@ -66,7 +66,7 @@ class UserController extends ApiController
 
     public function generateMenu($item) {
         $menu = [
-            'id' => $item->table ? $item->table : Str::uuid(),
+            'id' => $item->table ? $item->table : Str::random(64),
             'type' => 'item',
             'title' => $item->name,
             'icon' => $item->icon ? $item->icon : 'keyboard_arrow_right',
@@ -100,7 +100,7 @@ class UserController extends ApiController
                 $group = $item->first()->group;
 
                 $return = [
-                    'id' => Str::uuid(),
+                    'id' => Str::random(64),
                     'group_id' => $group_id,
                     'title' => $group->name,
                     'name' => $group->name,
